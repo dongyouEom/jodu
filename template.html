@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{REGION}} 출장 관리 | {{AREAS_TEXT}} 방문 홈케어 — {{BRAND}}</title>
+<meta name="description" content="{{CITY}} 방문 홈케어. {{AREAS_TEXT}} 자택·오피스텔 어디든 예약 당일 방문. {{HOURS}} 운영, 만나서 결제.">
+<link rel="canonical" href="{{DOMAIN}}/">
+<meta property="og:title" content="{{REGION}} 방문 홈케어 — {{BRAND}}">
+<meta property="og:description" content="{{AREAS_TEXT}} 예약 당일 방문, {{HOURS}}">
+<meta property="og:url" content="{{DOMAIN}}/">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+:root{--ink:#1f2a24;--mute:#5d6b63;--bg:#f6f7f4;--card:#fff;--line:#dfe4de;--green:#2f6b4f;--green-d:#24523d;--tg:#2aabee}
+*{box-sizing:border-box;margin:0}
+body{font-family:Pretendard,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;padding-bottom:76px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+header{background:var(--card);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:56px}
+.logo{font-weight:800;letter-spacing:-.02em}
+.hours{font-size:13px;color:var(--mute)}
+.hero{padding:44px 0 32px}
+.hero h1{font-size:clamp(28px,7vw,40px);line-height:1.2;letter-spacing:-.03em;font-weight:800}
+.hero p{margin-top:14px;color:var(--mute);font-size:17px}
+.cta{display:flex;gap:10px;margin-top:24px}
+.btn{flex:1;text-align:center;padding:14px;border-radius:12px;font-weight:700;font-size:16px}
+.btn.call{background:var(--green);color:#fff}
+.btn.tg{background:var(--tg);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chips span{font-size:13px;padding:5px 11px;border-radius:99px;background:#e6efe9;color:var(--green-d)}
+section{padding:28px 0}
+h2{font-size:21px;letter-spacing:-.02em;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.price{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+.price:last-child{border:0}
+.price b{font-size:17px}
+.price small{color:var(--mute);display:block;font-weight:400;font-size:13px}
+ol{padding-left:0;list-style:none;counter-reset:s}
+ol li{position:relative;padding:10px 0 10px 40px;counter-increment:s}
+ol li::before{content:counter(s);position:absolute;left:0;top:10px;width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;font-size:14px;font-weight:700;display:grid;place-items:center}
+details{border-bottom:1px solid var(--line);padding:12px 0}
+details:last-child{border:0}
+summary{cursor:pointer;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+details p{margin-top:8px;color:var(--mute);font-size:15px}
+.regions{display:flex;flex-wrap:wrap;gap:8px}
+.regions a{padding:8px 14px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-size:14px}
+.gallery{display:grid;gap:12px;padding-top:4px}
+.gallery figure{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.gallery img,.gallery video{display:block;width:100%;height:auto}
+.gallery figcaption{padding:10px 14px;font-size:13px;color:var(--mute)}
+.regions.top{padding-top:18px}
+.regions a.on{background:var(--green);color:#fff;border-color:var(--green)}
+footer{padding:28px 0 40px;font-size:13px;color:var(--mute)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.bar .cta{margin:0;max-width:720px;margin:0 auto}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="/">{{BRAND}}</a><span class="hours">{{HOURS}}</span></div></header>
+
+<main class="wrap">
+  <nav class="regions top" aria-label="지역 선택">{{REGION_LINKS}}</nav>
+  <div class="hero">
+    <h1><span data-r="name">{{REGION}}</span> 어디든<br>예약 당일 방문합니다</h1>
+    <p><span data-r="city">{{CITY}}</span> 자택·오피스텔로 전문 관리사가 직접 방문하는 홈케어. 선입금 없이 만나서 결제합니다.</p>
+    <div class="cta">
+      <a class="btn call" href="tel:{{PHONE}}">전화 예약</a>
+      <a class="btn tg" href="{{TELEGRAM}}" target="_blank" rel="noopener">텔레그램 상담</a>
+    </div>
+    <div class="chips" data-r="chips">{{AREA_CHIPS}}</div>
+  </div>
+
+{{MEDIA}}
+  <section>
+    <h2>코스 안내</h2>
+    <div class="card">
+      <div class="price"><div><b>타이 관리 60분</b><small>전신 스트레칭 중심</small></div><b>90,000원</b></div>
+      <div class="price"><div><b>아로마 관리 60분</b><small>오일 이완 중심</small></div><b>100,000원</b></div>
+      <div class="price"><div><b>타이 + 아로마 90분</b><small>가장 많이 찾는 코스</small></div><b>130,000원</b></div>
+      <div class="price"><div><b>스포츠 관리 60분</b><small>근육 회복·통증 부위 집중</small></div><b>100,000원</b></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>이용 방법</h2>
+    <div class="card">
+      <ol>
+        <li>전화 또는 텔레그램으로 원하는 시간과 주소를 알려주세요.</li>
+        <li>가장 가까운 관리사가 배정되고 도착 예정 시간을 안내드립니다.</li>
+        <li><span data-r="name">{{REGION}}</span> 기준 30~40분 내 도착합니다.</li>
+        <li>관리 후 현장에서 카드·현금·계좌이체로 결제합니다.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-r="name">{{REGION}}</span> 방문 가능 지역</h2>
+    <div class="card"><p><span data-r="areas">{{AREAS_TEXT}}</span> 등 <span data-r="city">{{CITY}}</span> 전 지역. 인근 지역도 상담 후 방문 가능합니다.</p></div>
+  </section>
+
+  <section>
+    <h2>자주 묻는 질문</h2>
+    <div class="card">
+      <details><summary>선입금이 필요한가요?</summary><p>아니요. 관리사 도착 후 대면 결제만 받습니다. 사전 입금을 요구하지 않습니다.</p></details>
+      <details><summary>예약 후 얼마나 걸리나요?</summary><p><span data-r="name">{{REGION}}</span> 기준 평균 30~40분입니다. 시간대에 따라 달라질 수 있어 예약 시 안내드립니다.</p></details>
+      <details><summary>준비할 것이 있나요?</summary><p>매트와 오일, 타월은 관리사가 모두 준비합니다. 편한 복장이면 충분합니다.</p></details>
+      <details><summary>운영 시간은요?</summary><p>{{HOURS}} 운영합니다. 마감 임박 시간은 텔레그램으로 먼저 확인해 주세요.</p></details>
+    </div>
+  </section>
+
+  <section>
+    <h2>다른 지역</h2>
+    <div class="regions">{{REGION_LINKS}}</div>
+  </section>
+</main>
+
+<footer class="wrap">{{BRAND}} · 문의 {{PHONE}} · {{HOURS}}</footer>
+
+<div class="bar"><div class="cta">
+  <a class="btn call" href="tel:{{PHONE}}">전화 예약</a>
+  <a class="btn tg" href="{{TELEGRAM}}" target="_blank" rel="noopener">텔레그램 상담</a>
+</div></div>
+
+<script id="regions" type="application/json">{{REGIONS_JSON}}</script>
+<script>
+(()=>{
+const R=JSON.parse(document.getElementById('regions').textContent);
+const brand={{BRAND_JSON}}, hours={{HOURS_JSON}};
+const $=s=>document.querySelectorAll(s);
+function show(slug){
+  const r=R.find(x=>x.slug===slug)||R[0];
+  const areas=r.areas.join('·');
+  $('[data-r=name]').forEach(e=>e.textContent=r.name);
+  $('[data-r=city]').forEach(e=>e.textContent=r.city);
+  $('[data-r=areas]').forEach(e=>e.textContent=areas);
+  $('[data-r=chips]').forEach(e=>e.innerHTML=r.areas.map(a=>`<span>${a}</span>`).join(''));
+  $('.regions a').forEach(a=>a.classList.toggle('on',a.dataset.slug===r.slug));
+  document.title=`${r.name} 출장 관리 | ${areas} 방문 홈케어 — ${brand}`;
+  const m=(s,v)=>{const e=document.querySelector(s);if(e)e.setAttribute('content',v)};
+  m('meta[name=description]',`${r.city} 방문 홈케어. ${areas} 자택·오피스텔 어디든 예약 당일 방문. ${hours} 운영, 만나서 결제.`);
+  m('meta[property="og:title"]',`${r.name} 방문 홈케어 — ${brand}`);
+  m('meta[property="og:description"]',`${areas} 예약 당일 방문, ${hours}`);
+  if(location.hash.slice(1)!==r.slug)history.replaceState(null,'','#'+r.slug);
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('.regions a');if(!a)return;
+  e.preventDefault();show(a.dataset.slug);window.scrollTo({top:0,behavior:'smooth'});
+});
+addEventListener('hashchange',()=>show(location.hash.slice(1)));
+show(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>

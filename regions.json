@@ -1,0 +1,17 @@
+{
+  "brand": "홈케어 스튜디오",
+  "phone": "010-0000-0000",
+  "telegram": "https://t.me/your_id",
+  "domain": "https://example.com",
+  "hours": "매일 10:00 – 24:00",
+  "media": [
+    { "file": "example.gif", "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가" },
+    { "file": "example2.gif", "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가" }
+  ],
+  "regions": [
+    { "slug": "Sillim",  "name": "신림",  "areas": ["신림역", "봉천", "서울대입구", "난곡"], "city": "서울 관악구" },
+    { "slug": "Incheon", "name": "인천",  "areas": ["부평", "송도", "구월", "청라"],          "city": "인천시 전 지역" },
+    { "slug": "Songtan", "name": "송탄",  "areas": ["송탄역", "서정리", "신장동"],            "city": "평택시 송탄" },
+    { "slug": "Chunan", "name": "천안",  "areas": ["천안역", "성성동", "불당동"],            "city": "천안시 불당" }
+  ]
+}
