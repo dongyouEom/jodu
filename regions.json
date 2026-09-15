@@ -2,7 +2,7 @@
   "brand": "홈케어 스튜디오",
   "phone": "010-0000-0000",
   "telegram": "https://t.me/your_id",
-  "domain": "https://example.com",
+  "domain": "https://dongyoueom.github.io/jodu",
   "hours": "매일 10:00 – 24:00",
   "media": [
     { "file": "example.gif", "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가" },
