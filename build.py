@@ -261,9 +261,17 @@ v = {**common, "ROOT": "", "URL": f"{domain}/", "COVERAGE": COVERAGE,
 
 # ---- 공통 파일 -------------------------------------------------------------------------
 shutil.copy2(root / "style.css", dist / "style.css")
+# lastmod: 페이지 내용에 영향을 주는 소스의 마지막 커밋 날짜 (검색엔진 재수집 신호). git이 없으면 생략
+try:
+    lastmod = subprocess.run(["git", "log", "-1", "--format=%cs", "--", "template.html", "template-index.html",
+                              "regions.json", "style.css", "assets"],
+                             cwd=root, capture_output=True, text=True, check=True).stdout.strip()
+except (OSError, subprocess.CalledProcessError):
+    lastmod = ""
+lm = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
 (dist / "sitemap.xml").write_text(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
+    + "".join(f"  <url><loc>{u}</loc>{lm}</url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
 (dist / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {domain}/sitemap.xml\n")
 (dist / ".nojekyll").write_text("")
 

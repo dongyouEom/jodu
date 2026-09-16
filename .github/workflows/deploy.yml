@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        # sitemap lastmod 계산에 커밋 이력이 필요
+        with:
+          fetch-depth: 0
       # Pages가 아직 켜져 있지 않으면 자동으로 켠다 (Settings > Pages 수동 설정 불필요)
       - uses: actions/configure-pages@v5
         with:
