@@ -48,9 +48,6 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;heigh
 .feats{display:flex;margin-top:24px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);padding:13px 0}
 .feats span{flex:1;text-align:center;font-size:13px;color:var(--gold-lt);letter-spacing:.01em}
 .feats span+span{border-left:1px solid var(--line-soft)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;justify-content:center}
-.chips span{font-size:12.5px;padding:6px 12px;border-radius:99px;background:rgba(217,181,88,.08);border:1px solid var(--line);color:var(--gold-lt)}
-
 section{padding:30px 0}
 h2{font-family:var(--disp);font-weight:900;font-size:23px;letter-spacing:-.01em;text-align:center;margin-bottom:18px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 h2 .en{display:block;font-family:Pretendard,sans-serif;font-weight:600;font-size:11px;letter-spacing:.24em;color:var(--mute);-webkit-text-fill-color:var(--mute);margin-top:7px}
@@ -70,6 +67,17 @@ h2 .en{display:block;font-family:Pretendard,sans-serif;font-weight:600;font-size
 .row b{margin-left:auto;font-size:19px;font-weight:800;letter-spacing:-.01em;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .row b i{font-style:normal;font-size:13px;margin-left:2px}
 .note{margin-top:14px;text-align:center;font-size:13px;color:var(--mute)}
+
+.events{display:grid;gap:10px}
+.ev{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(28,20,13,.92),rgba(18,13,9,.92));box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.ev b{font-size:16px;font-weight:800;color:var(--gold-lt)}
+.ev small{display:block;margin-top:2px;font-size:13px;font-weight:400;color:var(--mute)}
+.amt{flex:none;font-size:15px;font-weight:800;color:#2a1c05;background:var(--gold-bar);border-radius:99px;padding:6px 14px}
+
+.rule{padding:13px 0;border-bottom:1px solid var(--line-soft)}
+.rule:last-child{border-bottom:0}
+.rule b{display:block;margin-bottom:5px;font-size:15px;color:var(--gold-lt)}
+.rule p{font-size:14.5px;color:var(--mute)}
 
 ol{padding-left:0;list-style:none;counter-reset:s}
 ol li{position:relative;padding:11px 0 11px 44px;counter-increment:s;border-bottom:1px solid var(--line-soft)}

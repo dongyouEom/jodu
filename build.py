@@ -221,10 +221,10 @@ for r in regions:
     url = f"{domain}/{r['slug']}/"
     urls.append(url)
     areas_text = "·".join(r["areas"])
-    intro = r.get("intro") or f'{r["city"]} 자택·오피스텔로 전문 관리사가 직접 방문하는 홈케어. 선입금 없이 만나서 결제합니다.'
+    intro = r.get("intro") or (f'{r["city"]} 자택·숙박업소 등 계시는 곳으로 전문 관리사가 직접 방문하는 '
+                               f'홈타이 스웨디시. 선입금 없이 만나서 결제합니다.')
     v = {**common, "ROOT": "../", "URL": url,
          "REGION": r["name"], "CITY": r["city"], "AREAS_TEXT": areas_text, "INTRO": esc(intro),
-         "AREA_CHIPS": "".join(f"<span>{a}</span>" for a in r["areas"]),
          "REGION_LINKS": region_links("../", r),
          "REGION_LINKS_TOP": region_links("../", r, collapse_to=group_of(r)),
          "MEDIA": media_html("../"),
@@ -233,11 +233,14 @@ for r in regions:
     d = dist / r["slug"]; d.mkdir()
     (d / "index.html").write_text(render(tpl_region, v), encoding="utf-8")
 
-# ---- 루트 허브: 코스 안내는 지역 템플릿의 <section id="courses">를 그대로 가져와 한 곳에서만 관리 ----
-m = re.search(r'<section id="courses">.*?</section>', tpl_region, re.S)
-courses = m.group(0) if m else ""
+# ---- 루트 허브: 지역과 무관한 섹션은 지역 템플릿에서 그대로 가져와 한 곳에서만 관리 ----
+def section_of(sid):
+    m = re.search(rf'<section id="{sid}">.*?</section>', tpl_region, re.S)
+    return m.group(0) if m else ""
+
 v = {**common, "ROOT": "", "URL": f"{domain}/", "COVERAGE": COVERAGE,
-     "REGION_LINKS": region_links(""), "MEDIA": media_html(""), "COURSES": courses,
+     "REGION_LINKS": region_links(""), "MEDIA": media_html(""),
+     "COURSES": section_of("courses"), "EVENTS": section_of("events"), "NOTICE": section_of("notice"),
      "SLUGS_JSON": j([r["slug"] for r in regions]),
      "JSONLD": jsonld(f"{domain}/", [r["city"] for r in regions])}
 (dist / "index.html").write_text(render(tpl_index, v), encoding="utf-8")
