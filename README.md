@@ -24,8 +24,8 @@ python3 -m http.server -d dist 8000   # 로컬 확인 → http://localhost:8000/
   - `verify.google`에 Search Console의 HTML 태그 인증 코드를 넣으면 모든 페이지 `<head>`에 메타 태그가 들어간다. 비워두면 출력 안 함.
 - `assets/` — 갤러리에 올릴 이미지·GIF·영상(gif/png/jpg/webp/avif/svg/mp4/webm).
   파일을 넣고 `regions.json`의 `media`에 `{ "file": "파일명", "caption": "설명" }`을 추가하면
-  히어로 아래·코스 안내 위에 표시된다. `media` 항목을 통째로 지우면 `assets/` 전체가 파일명 순으로 자동 수록된다.
-  `assets/example.gif`는 자리 확인용 예시이니 실제 파일로 교체하면 된다.
+  히어로 아래·코스 안내 위에 표시된다. `media`를 `[]`로 두면 갤러리를 아예 출력하지 않고,
+  `media` 항목을 통째로 지우면 `assets/` 전체가 파일명 순으로 자동 수록된다.
   빌드 시 ffmpeg가 있으면 GIF는 mp4(+포스터 jpg)로, png/jpg는 webp로 자동 변환해 가볍게 내보낸다
   (GitHub Actions에는 항상 있음, 로컬은 `brew install ffmpeg`). 없으면 원본 그대로 사용.
 - `template.html` — 지역 페이지 1장 템플릿. `{{REGION}}` 같은 값은 빌드 시 지역마다 치환된다.
