@@ -53,6 +53,12 @@ h2{font-family:var(--disp);font-weight:900;font-size:23px;letter-spacing:-.01em;
 h2 .en{display:block;font-family:Pretendard,sans-serif;font-weight:600;font-size:11px;letter-spacing:.24em;color:var(--mute);-webkit-text-fill-color:var(--mute);margin-top:7px}
 .card{background:linear-gradient(180deg,rgba(28,20,13,.92),rgba(18,13,9,.92));border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 
+.kwh{font-size:clamp(19px,5.2vw,26px);line-height:1.45}
+.intro .kwh+.card{margin-bottom:34px}
+.intro .card p{font-size:15px;line-height:1.8;color:var(--mute);text-align:center}
+.intro .card p+p{margin-top:13px}
+.intro .card b{color:var(--gold-lt);font-weight:700}
+
 .courses{display:grid;gap:14px}
 .course{background:linear-gradient(180deg,rgba(28,20,13,.95),rgba(16,11,8,.95));border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .course h3{display:flex;align-items:center;justify-content:center;gap:10px;font-family:var(--disp);font-weight:900;font-size:18px;padding:13px 16px;color:var(--gold-lt);background:linear-gradient(180deg,rgba(109,19,34,.5),rgba(52,10,16,.5));border-bottom:1px solid var(--line)}
