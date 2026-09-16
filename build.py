@@ -184,13 +184,24 @@ seoul_n = sum(1 for r in regions if group_of(r) == "서울")
 others = [r["name"] for r in regions if group_of(r) != "서울"]
 COVERAGE = cfg.get("coverage") or "·".join(([f"서울 {seoul_n}개 구"] if seoul_n else []) + others)
 
-def jsonld(url, area_served):
+def jsonld(url, area_served, geo=None):
     d = {"@context": "https://schema.org", "@type": "LocalBusiness",
          "name": cfg["brand"], "telephone": cfg["phone"], "url": url,
          "areaServed": [{"@type": "Place", "name": a} for a in area_served]}
+    if geo:
+        d["geo"] = {"@type": "GeoCoordinates", "latitude": geo[0], "longitude": geo[1]}
     if og_image:
         d["image"] = f"{domain}/assets/{og_image}"
     return j(d).replace("</", "<\\/")
+
+def map_html(r):
+    """번화가 좌표 지도. 스크롤해 내려와야 로드되도록 lazy."""
+    g = r.get("geo")
+    if not g:
+        return ""
+    return (f'<div class="map"><iframe title="{esc(r["name"])} 위치" loading="lazy" allowfullscreen '
+            f'referrerpolicy="no-referrer-when-downgrade" '
+            f'src="https://maps.google.com/maps?q={g[0]},{g[1]}&amp;z=14&amp;output=embed"></iframe></div>')
 
 FAQ_SRC = re.findall(r"<details><summary>(.*?)</summary><p>(.*?)</p></details>", tpl_region, re.S)
 
@@ -230,8 +241,8 @@ for r in regions:
          "REGION": r["name"], "CITY": r["city"], "AREAS_TEXT": areas_text, "INTRO": esc(intro),
          "REGION_LINKS": region_links("../", r),
          "REGION_LINKS_TOP": region_links("../", r, collapse_to=group_of(r)),
-         "MEDIA": media_html("../"),
-         "JSONLD": jsonld(url, [r["city"], *r["areas"]])}
+         "MEDIA": media_html("../"), "MAP": map_html(r),
+         "JSONLD": jsonld(url, [r["city"], *r["areas"]], r.get("geo"))}
     v["FAQ_JSONLD"] = faq_jsonld(v)
     d = dist / r["slug"]; d.mkdir()
     (d / "index.html").write_text(render(tpl_region, v), encoding="utf-8")
