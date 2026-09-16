@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ROOT}}style.css">
+<link rel="stylesheet" href="{{ROOT}}style.css?v={{CSS_V}}">
 {{VERIFY_META}}<script type="application/ld+json">{{JSONLD}}</script>
 {{FAQ_JSONLD}}
 </head>
@@ -116,12 +116,11 @@
 
   <section id="notice">
     <h2>이용 시 유의사항<span class="en">NOTICE</span></h2>
-    <div class="card">
-      <div class="rule"><b>건전한 관리만 제공합니다</b><p>저희는 마사지·바디케어 업소입니다. 성적인 서비스는 일절 제공하지 않으며, 관련된 요구를 하실 경우 관리는 즉시 종료되고 이후 이용이 제한됩니다.</p></div>
+    <div class="rules">
       <div class="rule"><b>휴대전화로만 예약 가능합니다</b><p>발신번호 표시제한, 공중전화, 인터넷전화로 연락 주시면 예약이 제한될 수 있습니다.</p></div>
       <div class="rule"><b>과도한 음주 상태에서는 이용이 어렵습니다</b><p>관리사와 고객 모두의 안전을 위해 정상적인 관리가 어려운 상태에서는 서비스가 중단될 수 있습니다.</p></div>
       <div class="rule"><b>잦은 취소·무단 취소</b><p>예약 후 연락 없이 취소하는 일이 반복되면 이후 예약이 제한될 수 있습니다. 일정이 바뀌면 미리 알려주세요.</p></div>
-      <div class="rule"><b>관리사를 존중해 주세요</b><p>무례한 언행이나 강압적인 태도는 삼가 주세요. 서로 예의를 지켜 주시면 더 좋은 관리로 보답하겠습니다.</p></div>
+      <div class="rule"><b>관리사를 존중해 주세요</b><p>무례한 언행이나 강압적인 태도, 업무 범위를 벗어난 요구는 삼가 주세요. 반복될 경우 블랙 처리되어 이후 이용이 제한될 수 있습니다.</p></div>
     </div>
   </section>
 
@@ -149,10 +148,12 @@
   <a class="btn tg" href="{{TELEGRAM}}" target="_blank" rel="noopener">텔레그램 상담</a>
 </div></div>
 <script>
-// 선택된 지역을 다시 누르면 상단 내비에서 다른 묶음까지 펼친다
-(()=>{const n=document.querySelector('.regions-nav.top'),a=n&&n.querySelector('a.on');if(!a)return;
-a.setAttribute('aria-expanded','false');
-a.addEventListener('click',e=>{e.preventDefault();a.setAttribute('aria-expanded',n.classList.toggle('open'))});})();
+// 상단 내비는 현재 묶음만 보인다. 펼침 버튼은 JS로 만들어 스크립트가 없을 때 죽은 버튼이 남지 않게 한다
+(()=>{const n=document.querySelector('.regions-nav.top');if(!n||!n.querySelector('.rgroup.off'))return;
+const b=document.createElement('button');b.type='button';b.className='allregions';b.textContent='전체 지역 보기';b.setAttribute('aria-expanded','false');
+b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);b.textContent=o?'접기':'전체 지역 보기'};
+n.prepend(b);
+const a=n.querySelector('a.on');if(a)a.addEventListener('click',e=>{e.preventDefault();b.onclick()});})();
 </script>
 </body>
 </html>

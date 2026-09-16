@@ -5,7 +5,7 @@ dist/index.html          루트(허브): 브랜드 소개 + 전체 지역 목록
 dist/<slug>/index.html   지역별 페이지 (검색엔진이 지역마다 별도 URL로 색인)
 dist/style.css, assets/, sitemap.xml, robots.txt, (커스텀 도메인이면) CNAME
 """
-import json, pathlib, re, shutil, subprocess
+import hashlib, json, pathlib, re, shutil, subprocess
 from urllib.parse import urlparse
 
 root = pathlib.Path(__file__).parent
@@ -212,8 +212,11 @@ def render(tpl, v):
     if left: die(f"템플릿에 치환되지 않은 값이 있습니다: {sorted(set(left))}")
     return out
 
+# style.css 를 고쳐도 브라우저가 옛 파일을 계속 쓰지 않도록 내용 해시를 쿼리로 붙인다
+CSS_V = hashlib.sha1((root / "style.css").read_bytes()).hexdigest()[:8]
+
 common = {"BRAND": cfg["brand"], "PHONE": cfg["phone"], "TELEGRAM": cfg["telegram"],
-          "HOURS": cfg["hours"], "OG_IMAGE": OG_IMAGE, "VERIFY_META": VERIFY_META}
+          "HOURS": cfg["hours"], "OG_IMAGE": OG_IMAGE, "VERIFY_META": VERIFY_META, "CSS_V": CSS_V}
 
 # ---- 지역 페이지 -----------------------------------------------------------------------
 urls = [f"{domain}/"]
