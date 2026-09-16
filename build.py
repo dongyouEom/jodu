@@ -164,12 +164,16 @@ VERIFY_META = "".join(
 
 # ---- 지역 링크 (서울 / 그 외로 묶어서) --------------------------------------------------------
 def group_of(r):
-    return "서울" if r["city"].startswith("서울") else "경기·인천"
+    return r.get("group") or ("서울" if r["city"].startswith("서울") else "경기·인천")
 
-def region_links(prefix, current=None):
+def region_links(prefix, current=None, only=None):
+    """only 를 주면 그 묶음만. 지역 수가 많아 상단 내비는 같은 묶음만 보여준다."""
     groups = {}
     for r in regions:
-        groups.setdefault(group_of(r), []).append(r)
+        g = group_of(r)
+        if only and g != only:
+            continue
+        groups.setdefault(g, []).append(r)
     html = []
     for label, rs in groups.items():
         links = "".join(
@@ -177,9 +181,10 @@ def region_links(prefix, current=None):
         html.append(f'<div class="rgroup"><b>{label}</b><div class="regions">{links}</div></div>')
     return "".join(html)
 
+# 제목·설명에 들어가므로 지역이 많아지면 regions.json 의 "coverage" 로 짧게 고정한다
 seoul_n = sum(1 for r in regions if group_of(r) == "서울")
 others = [r["name"] for r in regions if group_of(r) != "서울"]
-COVERAGE = "·".join(([f"서울 {seoul_n}개 구"] if seoul_n else []) + others)
+COVERAGE = cfg.get("coverage") or "·".join(([f"서울 {seoul_n}개 구"] if seoul_n else []) + others)
 
 def jsonld(url, area_served):
     d = {"@context": "https://schema.org", "@type": "LocalBusiness",
@@ -223,6 +228,7 @@ for r in regions:
          "REGION": r["name"], "CITY": r["city"], "AREAS_TEXT": areas_text, "INTRO": esc(intro),
          "AREA_CHIPS": "".join(f"<span>{a}</span>" for a in r["areas"]),
          "REGION_LINKS": region_links("../", r),
+         "REGION_LINKS_TOP": region_links("../", r, only=group_of(r)),
          "MEDIA": media_html("../"),
          "JSONLD": jsonld(url, [r["city"], *r["areas"]])}
     v["FAQ_JSONLD"] = faq_jsonld(v)
