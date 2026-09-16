@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Pages가 아직 켜져 있지 않으면 자동으로 켠다 (Settings > Pages 수동 설정 불필요)
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - run: python3 build.py
       - uses: actions/upload-pages-artifact@v3
         with:
