@@ -1,20 +1,11 @@
 {
   "brand": "홈케어 스튜디오",
-  "phone": "010-0000-0000",
-  "telegram": "https://t.me/your_id",
+  "phone": "0502-1948-0048",
+  "telegram": "https://t.me/massageking12",
   "domain": "https://dongyoueom.github.io/jodu",
-  "hours": "매일 10:00 – 24:00",
+  "hours": "365일 24시간 연중무휴",
   "verify": { "google": "" },
-  "media": [
-    {
-      "file": "example.gif",
-      "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가"
-    },
-    {
-      "file": "example2.gif",
-      "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가"
-    }
-  ],
+  "media": [],
   "regions": [
     {"slug": "gwanak", "name": "관악구", "areas": ["신림역", "봉천", "서울대입구", "난곡"], "city": "서울 관악구"},
     {"slug": "gangnam", "name": "강남구", "areas": ["역삼", "삼성", "논현", "청담", "대치"], "city": "서울 강남구"},

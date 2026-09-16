@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{BRAND}} | {{COVERAGE}} 방문 홈케어 · 예약 당일 출장</title>
 <meta name="description" content="{{COVERAGE}} 어디든 예약 당일 방문하는 홈케어. 자택·오피스텔 방문, {{HOURS}} 운영, 선입금 없이 만나서 결제.">
+<meta name="theme-color" content="#0a0706">
 <link rel="canonical" href="{{URL}}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{BRAND}} — {{COVERAGE}} 방문 홈케어">
@@ -12,7 +13,10 @@
 <meta property="og:url" content="{{URL}}">
 {{OG_IMAGE}}
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ROOT}}style.css">
 {{VERIFY_META}}<script type="application/ld+json">{{JSONLD}}</script>
 <script>
@@ -31,10 +35,11 @@
       <a class="btn call" href="tel:{{PHONE}}">전화 예약</a>
       <a class="btn tg" href="{{TELEGRAM}}" target="_blank" rel="noopener">텔레그램 상담</a>
     </div>
+    <div class="feats"><span>프리미엄 테라피</span><span>24시간 예약가능</span><span>고객 맞춤 케어</span></div>
   </div>
 
   <section>
-    <h2>지역을 선택하세요</h2>
+    <h2>지역을 선택하세요<span class="en">SERVICE AREA</span></h2>
     {{REGION_LINKS}}
   </section>
 
@@ -42,7 +47,7 @@
 {{COURSES}}
 
   <section>
-    <h2>이용 방법</h2>
+    <h2>이용 방법<span class="en">HOW TO BOOK</span></h2>
     <div class="card">
       <ol>
         <li>전화 또는 텔레그램으로 원하는 시간과 주소를 알려주세요.</li>
@@ -51,6 +56,7 @@
         <li>관리 후 현장에서 카드·현금·계좌이체로 결제합니다.</li>
       </ol>
     </div>
+    <div class="trust"><span>365일 24시간<br>연중무휴</span><span>카드결제<br>계좌이체 가능</span><span>남녀노소<br>단체예약 환영</span></div>
   </section>
 </main>
 
