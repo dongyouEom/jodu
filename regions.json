@@ -5,13 +5,43 @@
   "domain": "https://dongyoueom.github.io/jodu",
   "hours": "매일 10:00 – 24:00",
   "media": [
-    { "file": "example.gif", "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가" },
-    { "file": "example2.gif", "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가" }
+    {
+      "file": "example.gif",
+      "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가"
+    },
+    {
+      "file": "example2.gif",
+      "caption": "예시 GIF — assets/ 폴더에 파일을 넣고 여기 한 줄 추가"
+    }
   ],
   "regions": [
-    { "slug": "Sillim",  "name": "신림",  "areas": ["신림역", "봉천", "서울대입구", "난곡"], "city": "서울 관악구" },
-    { "slug": "Incheon", "name": "인천",  "areas": ["부평", "송도", "구월", "청라"],          "city": "인천시 전 지역" },
-    { "slug": "Songtan", "name": "송탄",  "areas": ["송탄역", "서정리", "신장동"],            "city": "평택시 송탄" },
-    { "slug": "Chunan", "name": "천안",  "areas": ["천안역", "성성동", "불당동"],            "city": "천안시 불당" }
+    {"slug": "gwanak", "name": "관악구", "areas": ["신림역", "봉천", "서울대입구", "난곡"], "city": "서울 관악구"},
+    {"slug": "gangnam", "name": "강남구", "areas": ["역삼", "삼성", "논현", "청담", "대치"], "city": "서울 강남구"},
+    {"slug": "seocho", "name": "서초구", "areas": ["강남역", "교대", "반포", "양재"], "city": "서울 서초구"},
+    {"slug": "songpa", "name": "송파구", "areas": ["잠실", "문정", "가락", "석촌"], "city": "서울 송파구"},
+    {"slug": "gangdong", "name": "강동구", "areas": ["천호", "길동", "명일", "둔촌"], "city": "서울 강동구"},
+    {"slug": "dongjak", "name": "동작구", "areas": ["사당", "노량진", "이수", "흑석"], "city": "서울 동작구"},
+    {"slug": "yeongdeungpo", "name": "영등포구", "areas": ["영등포역", "여의도", "당산", "문래"], "city": "서울 영등포구"},
+    {"slug": "guro", "name": "구로구", "areas": ["구로디지털단지", "신도림", "개봉", "오류동"], "city": "서울 구로구"},
+    {"slug": "geumcheon", "name": "금천구", "areas": ["가산디지털단지", "독산", "시흥동"], "city": "서울 금천구"},
+    {"slug": "yangcheon", "name": "양천구", "areas": ["목동", "신정", "신월", "오목교"], "city": "서울 양천구"},
+    {"slug": "gangseo", "name": "강서구", "areas": ["마곡", "화곡", "발산", "김포공항"], "city": "서울 강서구"},
+    {"slug": "mapo", "name": "마포구", "areas": ["홍대입구", "합정", "공덕", "상암"], "city": "서울 마포구"},
+    {"slug": "seodaemun", "name": "서대문구", "areas": ["신촌", "홍제", "충정로", "가좌"], "city": "서울 서대문구"},
+    {"slug": "eunpyeong", "name": "은평구", "areas": ["연신내", "불광", "응암", "수색"], "city": "서울 은평구"},
+    {"slug": "yongsan", "name": "용산구", "areas": ["이태원", "한남", "용산역", "숙대입구"], "city": "서울 용산구"},
+    {"slug": "jung", "name": "중구", "areas": ["명동", "을지로", "충무로", "신당"], "city": "서울 중구"},
+    {"slug": "jongno", "name": "종로구", "areas": ["종각", "광화문", "혜화", "동대문"], "city": "서울 종로구"},
+    {"slug": "seongdong", "name": "성동구", "areas": ["성수", "왕십리", "행당", "옥수"], "city": "서울 성동구"},
+    {"slug": "gwangjin", "name": "광진구", "areas": ["건대입구", "구의", "자양", "군자"], "city": "서울 광진구"},
+    {"slug": "dongdaemun", "name": "동대문구", "areas": ["청량리", "회기", "장안", "답십리"], "city": "서울 동대문구"},
+    {"slug": "jungnang", "name": "중랑구", "areas": ["상봉", "면목", "망우", "묵동"], "city": "서울 중랑구"},
+    {"slug": "seongbuk", "name": "성북구", "areas": ["길음", "성신여대", "돈암", "석계"], "city": "서울 성북구"},
+    {"slug": "gangbuk", "name": "강북구", "areas": ["수유", "미아", "번동", "우이"], "city": "서울 강북구"},
+    {"slug": "dobong", "name": "도봉구", "areas": ["창동", "쌍문", "방학", "도봉"], "city": "서울 도봉구"},
+    {"slug": "nowon", "name": "노원구", "areas": ["노원역", "상계", "중계", "하계"], "city": "서울 노원구"},
+    {"slug": "incheon", "name": "인천", "areas": ["부평", "송도", "구월", "청라"], "city": "인천시 전 지역"},
+    {"slug": "pyeongtaek", "name": "평택", "areas": ["평택역", "송탄역", "서정리", "안중"], "city": "평택시 전 지역"},
+    {"slug": "paju", "name": "파주", "areas": ["운정", "금촌", "문산", "야당"], "city": "파주시 전 지역"}
   ]
 }

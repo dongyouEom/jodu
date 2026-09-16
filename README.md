@@ -13,18 +13,22 @@
 
 ```
 python3 build.py          # dist/ 생성
-python3 -m http.server -d dist 8000   # 로컬 확인 → http://localhost:8000/#Sillim
+python3 -m http.server -d dist 8000   # 로컬 확인 → http://localhost:8000/  ,  /gangnam/
 ```
 
 - `regions.json` — 업체명·전화·텔레그램 링크·도메인·지역 목록·갤러리 파일 목록.
-  - 지역 추가는 `regions`에 한 줄.
-  - `telegram`은 `https://t.me/아이디` 형태.
+  - 지역 추가는 `regions`에 한 줄. `slug`는 영문 소문자(URL 경로 `/gangnam/`이 됨), `city`가 "서울"로 시작하면 서울 묶음, 아니면 "경기·인천" 묶음에 표시.
+  - 지역별 소개 문장을 바꾸려면 `"intro": "..."`를 추가 (없으면 기본 문장). 검색 노출을 위해 지역마다 다른 문장을 권장.
+  - `telegram`은 `https://t.me/아이디` 형태. `domain`을 커스텀 도메인으로 바꾸면 canonical·sitemap·CNAME이 자동 반영.
+  - 항목 누락·slug 중복 등은 빌드가 한국어 메시지로 실패시킴 (Actions 로그에서 확인).
 - `assets/` — 갤러리에 올릴 이미지·GIF·영상(gif/png/jpg/webp/avif/svg/mp4/webm).
   파일을 넣고 `regions.json`의 `media`에 `{ "file": "파일명", "caption": "설명" }`을 추가하면
   히어로 아래·코스 안내 위에 표시된다. `media` 항목을 통째로 지우면 `assets/` 전체가 파일명 순으로 자동 수록된다.
   `assets/example.gif`는 자리 확인용 예시이니 실제 파일로 교체하면 된다.
-- `template.html` — 페이지 1장 템플릿. `{{BRAND}}` 같은 공통 값은 빌드 시 치환되고,
-  지역별 값(`data-r="name|city|areas|chips"`)은 페이지 안 JS가 선택된 지역으로 채운다.
-- 지역 선택 — 상단/하단 지역 탭 클릭, 또는 URL 해시 `#Sillim` `#Incheon` `#Songtan`.
-  해시가 없거나 잘못되면 첫 지역을 표시. JS 미동작 시에도 첫 지역 내용은 HTML에 그대로 있음.
-- `dist/` — 배포 결과물(index.html, assets/, sitemap.xml, robots.txt). Cloudflare Pages / GitHub Pages / Netlify에 폴더째 올리면 끝.
+- `template.html` — 지역 페이지 1장 템플릿. `{{REGION}}` 같은 값은 빌드 시 지역마다 치환된다.
+  코스 안내(`<section id="courses">`)는 여기서만 고치면 루트 페이지에도 같이 반영.
+- `template-index.html` — 루트(허브) 페이지 템플릿. 브랜드 소개 + 전체 지역 목록.
+- `style.css` — 두 템플릿이 공유하는 스타일.
+- 지역 페이지 — 지역마다 `/<slug>/` 별도 HTML로 생성되어 검색엔진이 각각 색인한다 (예: `/gangnam/`).
+  예전 `#Slug` 해시 주소로 들어오면 루트에서 해당 지역 페이지로 이동.
+- `dist/` — 배포 결과물(index.html, <slug>/index.html, style.css, assets/, sitemap.xml, robots.txt, CNAME). Cloudflare Pages / GitHub Pages / Netlify에 폴더째 올리면 끝.
