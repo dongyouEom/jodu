@@ -5,7 +5,7 @@ dist/index.html          루트(허브): 브랜드 소개 + 전체 지역 목록
 dist/<slug>/index.html   지역별 페이지 (검색엔진이 지역마다 별도 URL로 색인)
 dist/style.css, assets/, sitemap.xml, robots.txt, (커스텀 도메인이면) CNAME
 """
-import json, pathlib, re, shutil
+import json, pathlib, re, shutil, subprocess
 from urllib.parse import urlparse
 
 root = pathlib.Path(__file__).parent
@@ -69,26 +69,98 @@ def media_items():
     return out
 
 MEDIA = media_items()
+FFMPEG, FFPROBE = shutil.which("ffmpeg"), shutil.which("ffprobe")
+if MEDIA and not FFMPEG:
+    print("참고: ffmpeg 없음 -> GIF/이미지 변환 생략, 원본 그대로 사용 (GitHub Actions에서는 자동 변환됨)")
+
+def run(*args):
+    try:
+        subprocess.run(args, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=300)
+        return True
+    except Exception as e:
+        print(f"변환 실패 ({args[-1]}): {e}"); return False
+
+def probe(path):
+    """(width, height) 또는 None. CLS 방지용 width/height 속성에 쓴다."""
+    if not FFPROBE: return None
+    try:
+        out = subprocess.run([FFPROBE, "-v", "error", "-select_streams", "v:0", "-show_entries",
+                              "stream=width,height", "-of", "csv=p=0", str(path)],
+                             capture_output=True, text=True, timeout=60).stdout.strip().split(",")
+        return int(out[0]), int(out[1])
+    except Exception:
+        return None
+
+if MEDIA:
+    shutil.copytree(assets, dist / "assets", ignore=lambda d, names: [n for n in names if n.startswith(".")])
+
+def prepare_media():
+    """GIF -> mp4(+포스터 jpg), png/jpg -> webp 로 변환해 dist/assets 에 추가. 실패·ffmpeg 없음이면 원본 사용.
+    반환: [{kind, src, fallback, poster, w, h, cap}]"""
+    out_dir = dist / "assets"
+    items = []
+    for f, cap in MEDIA:
+        ext = f.suffix.lower(); stem = f.stem
+        it = {"kind": "img", "src": f.name, "fallback": None, "poster": None, "cap": cap}
+        dims = probe(f)
+        if ext == ".gif" and FFMPEG:
+            mp4, jpg = out_dir / f"{stem}.mp4", out_dir / f"{stem}.jpg"
+            ok = run(FFMPEG, "-y", "-loglevel", "error", "-i", str(f), "-an", "-movflags", "+faststart",
+                     "-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", str(mp4))
+            if ok:
+                it.update(kind="video", src=mp4.name, fallback=f.name)
+                if run(FFMPEG, "-y", "-loglevel", "error", "-i", str(f), "-frames:v", "1", "-q:v", "3", str(jpg)):
+                    it["poster"] = jpg.name
+                dims = probe(mp4) or dims
+        elif ext in {".png", ".jpg", ".jpeg"} and FFMPEG:
+            webp = out_dir / f"{stem}.webp"
+            if run(FFMPEG, "-y", "-loglevel", "error", "-i", str(f), "-c:v", "libwebp", "-quality", "82", str(webp)):
+                it.update(kind="picture", src=webp.name, fallback=f.name)
+        elif ext in VID:
+            it["kind"] = "video"
+        if dims: it["w"], it["h"] = dims
+        items.append(it)
+    if items:
+        (dist / ".assets-manifest").write_text("\n".join(f.name for f in out_dir.iterdir()))
+    return items
+
+ITEMS = prepare_media() if MEDIA else []
 
 def media_html(prefix):
     figs = []
-    for f, cap in MEDIA:
-        src = f"{prefix}assets/{f.name}"
-        if f.suffix.lower() in VID:
-            tag = f'<video src="{src}" autoplay muted loop playsinline></video>'
+    for it in ITEMS:
+        a = f"{prefix}assets/"
+        wh = f' width="{it["w"]}" height="{it["h"]}"' if it.get("w") else ""
+        cap = esc(it["cap"])
+        if it["kind"] == "video":
+            poster = f' poster="{a}{it["poster"]}"' if it.get("poster") else ""
+            tag = (f'<video src="{a}{it["src"]}"{poster}{wh} autoplay muted loop playsinline preload="metadata" aria-label="{cap}">'
+                   + (f'<img src="{a}{it["fallback"]}" alt="{cap}" loading="lazy">' if it.get("fallback") else "") + "</video>")
+        elif it["kind"] == "picture":
+            tag = (f'<picture><source srcset="{a}{it["src"]}" type="image/webp">'
+                   f'<img src="{a}{it["fallback"]}" alt="{cap}"{wh} loading="lazy"></picture>')
         else:
-            tag = f'<img src="{src}" alt="{esc(cap)}" loading="lazy">'
-        figs.append(f"<figure>{tag}{f'<figcaption>{esc(cap)}</figcaption>' if cap else ''}</figure>")
+            tag = f'<img src="{a}{it["src"]}" alt="{cap}"{wh} loading="lazy">'
+        figs.append(f"<figure>{tag}{f'<figcaption>{cap}</figcaption>' if cap else ''}</figure>")
     if not figs:
         return ""
     return '  <section>\n    <div class="gallery">' + "".join(figs) + "</div>\n  </section>"
 
-if MEDIA:
-    shutil.copytree(assets, dist / "assets", ignore=lambda d, names: [n for n in names if n.startswith(".")])
-    (dist / ".assets-manifest").write_text("\n".join(f.name for f in (dist / "assets").iterdir()))
+def og_image_name():
+    """og:image 는 정지 이미지가 안전: 포스터 jpg > webp 변환 원본 > 첫 이미지."""
+    for it in ITEMS:
+        if it.get("poster"): return it["poster"]
+        if it["kind"] == "picture": return it["fallback"]
+        if it["kind"] == "img" and pathlib.Path(it["src"]).suffix.lower() in IMG: return it["src"]
+    return None
 
-og_image = next((f for f, _ in MEDIA if f.suffix.lower() in IMG), None)
-OG_IMAGE = f'<meta property="og:image" content="{domain}/assets/{og_image.name}">' if og_image else ""
+og_image = og_image_name()
+OG_IMAGE = f'<meta property="og:image" content="{domain}/assets/{og_image}">' if og_image else ""
+
+# 검색엔진 소유권 인증 메타 태그 (regions.json "verify": {"google": "코드"}), 값이 있을 때만 출력
+VERIFY_META = "".join(
+    f'<meta name="{k}-site-verification" content="{esc(v)}">\n'
+    for k, v in (cfg.get("verify") or {}).items() if v)
 
 # ---- 지역 링크 (서울 / 그 외로 묶어서) --------------------------------------------------------
 def group_of(r):
@@ -114,8 +186,20 @@ def jsonld(url, area_served):
          "name": cfg["brand"], "telephone": cfg["phone"], "url": url,
          "areaServed": [{"@type": "Place", "name": a} for a in area_served]}
     if og_image:
-        d["image"] = f"{domain}/assets/{og_image.name}"
+        d["image"] = f"{domain}/assets/{og_image}"
     return j(d).replace("</", "<\\/")
+
+FAQ_SRC = re.findall(r"<details><summary>(.*?)</summary><p>(.*?)</p></details>", tpl_region, re.S)
+
+def faq_jsonld(v):
+    """FAQ 섹션(template.html)의 질문·답변을 지역값으로 치환해 FAQPage JSON-LD 로. 원본은 템플릿 한 곳."""
+    def sub(t):
+        for k, val in v.items(): t = t.replace("{{" + k + "}}", val)
+        return re.sub(r"<[^>]+>", "", t).strip()
+    if not FAQ_SRC: return ""
+    d = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": sub(q), "acceptedAnswer": {"@type": "Answer", "text": sub(a)}} for q, a in FAQ_SRC]}
+    return '<script type="application/ld+json">' + j(d).replace("</", "<\\/") + "</script>"
 
 def render(tpl, v):
     out = tpl
@@ -126,7 +210,7 @@ def render(tpl, v):
     return out
 
 common = {"BRAND": cfg["brand"], "PHONE": cfg["phone"], "TELEGRAM": cfg["telegram"],
-          "HOURS": cfg["hours"], "OG_IMAGE": OG_IMAGE}
+          "HOURS": cfg["hours"], "OG_IMAGE": OG_IMAGE, "VERIFY_META": VERIFY_META}
 
 # ---- 지역 페이지 -----------------------------------------------------------------------
 urls = [f"{domain}/"]
@@ -141,6 +225,7 @@ for r in regions:
          "REGION_LINKS": region_links("../", r),
          "MEDIA": media_html("../"),
          "JSONLD": jsonld(url, [r["city"], *r["areas"]])}
+    v["FAQ_JSONLD"] = faq_jsonld(v)
     d = dist / r["slug"]; d.mkdir()
     (d / "index.html").write_text(render(tpl_region, v), encoding="utf-8")
 

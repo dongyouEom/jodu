@@ -4,6 +4,7 @@
   "telegram": "https://t.me/your_id",
   "domain": "https://dongyoueom.github.io/jodu",
   "hours": "매일 10:00 – 24:00",
+  "verify": { "google": "" },
   "media": [
     {
       "file": "example.gif",

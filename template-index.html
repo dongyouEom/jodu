@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ROOT}}style.css">
-<script type="application/ld+json">{{JSONLD}}</script>
+{{VERIFY_META}}<script type="application/ld+json">{{JSONLD}}</script>
 <script>
 // 예전 주소(#Slug) 호환: 해시가 지역 슬러그면 지역 페이지로 이동
 (()=>{const s=location.hash.slice(1).toLowerCase();if(s&&{{SLUGS_JSON}}.includes(s))location.replace(s+'/');})();

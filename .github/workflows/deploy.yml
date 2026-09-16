@@ -20,6 +20,8 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      # GIF -> mp4, png/jpg -> webp 자동 변환용 (러너에 보통 설치돼 있음, 없으면 설치)
+      - run: command -v ffmpeg >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg)
       - run: python3 build.py
       - uses: actions/upload-pages-artifact@v3
         with:
