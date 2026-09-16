@@ -261,10 +261,14 @@ v = {**common, "ROOT": "", "URL": f"{domain}/", "COVERAGE": COVERAGE,
 
 # ---- 공통 파일 -------------------------------------------------------------------------
 shutil.copy2(root / "style.css", dist / "style.css")
+# 파비콘: icons/ 의 파일을 사이트 루트로 (/favicon.ico 는 브라우저·검색엔진이 기본으로 찾는 경로)
+for f in (root / "icons").iterdir():
+    if f.is_file():
+        shutil.copy2(f, dist / f.name)
 # lastmod: 페이지 내용에 영향을 주는 소스의 마지막 커밋 날짜 (검색엔진 재수집 신호). git이 없으면 생략
 try:
     lastmod = subprocess.run(["git", "log", "-1", "--format=%cs", "--", "template.html", "template-index.html",
-                              "regions.json", "style.css", "assets"],
+                              "regions.json", "style.css", "assets", "icons"],
                              cwd=root, capture_output=True, text=True, check=True).stdout.strip()
 except (OSError, subprocess.CalledProcessError):
     lastmod = ""

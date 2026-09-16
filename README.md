@@ -36,6 +36,7 @@ python3 -m http.server -d dist 8000   # 로컬 확인 → http://localhost:8000/
   이 id를 바꾸면 루트 페이지에서 해당 섹션이 사라지고, 이 섹션 안에는 `{{REGION}}` 같은 지역 값을 넣으면 안 된다.
   자주 묻는 질문(`<details>`)은 빌드 시 FAQPage 구조화 데이터(JSON-LD)로도 자동 출력되므로 질문·답변은 여기 한 곳만 수정.
 - `template-index.html` — 루트(허브) 페이지 템플릿. 브랜드 소개 + 전체 지역 목록.
+- `icons/` — 파비콘(favicon.svg·favicon.ico·icon-192.png·apple-touch-icon.png). 빌드 시 사이트 루트로 복사된다. 바꿀 때는 파일명을 그대로 두고 교체.
 - `style.css` — 두 템플릿이 공유하는 스타일. 맨 위 `:root` 색상 변수를 지우면 버튼 색이 전부 사라진다.
   빌드가 파일 해시를 `style.css?v=…`로 붙이므로 수정 즉시 방문자에게 반영된다(HTML은 GitHub Pages가 10분 캐시).
 - 지역 페이지 — 지역마다 `/<slug>/` 별도 HTML로 생성되어 검색엔진이 각각 색인한다 (예: `/gangnam/`).
