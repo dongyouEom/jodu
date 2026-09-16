@@ -23,7 +23,7 @@ python3 -m http.server -d dist 8000   # 로컬 확인 → http://localhost:8000/
   - `geo`: `[위도, 경도]` 번화가 좌표. 구조화 데이터의 위치와 "방문 가능 지역" 아래 지도에 쓰인다. 없으면 지도 생략.
   - `coverage`: 루트 페이지 제목·설명에 들어가는 짧은 서비스 지역 문구.
   - `telegram`은 `https://t.me/아이디` 형태. `domain`을 바꾸면 canonical·sitemap·robots·CNAME이 자동 반영.
-  - `verify.google` / `verify.naver`에 HTML 태그 인증 코드를 넣으면 모든 페이지 `<head>`에 메타 태그가 들어간다. 비워두면 출력 안 함 (Search Console을 DNS TXT로 인증했다면 불필요).
+  - `verify.google`에 Search Console의 HTML 태그 인증 코드를 넣으면 모든 페이지 `<head>`에 메타 태그가 들어간다. 비워두면 출력 안 함 (Search Console을 DNS TXT로 인증했다면 불필요).
   - 항목 누락·slug 중복 등은 빌드가 한국어 메시지로 실패시킴 (Actions 로그에서 확인).
 - `assets/` — 갤러리에 올릴 이미지·GIF·영상(gif/png/jpg/webp/avif/svg/mp4/webm).
   파일을 넣고 `regions.json`의 `media`에 `{ "file": "파일명", "caption": "설명" }`을 추가하면
