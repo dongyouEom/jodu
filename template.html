@@ -127,5 +127,11 @@
   <a class="btn call" href="tel:{{PHONE}}">전화 예약</a>
   <a class="btn tg" href="{{TELEGRAM}}" target="_blank" rel="noopener">텔레그램 상담</a>
 </div></div>
+<script>
+// 선택된 지역을 다시 누르면 상단 내비에서 다른 묶음까지 펼친다
+(()=>{const n=document.querySelector('.regions-nav.top'),a=n&&n.querySelector('a.on');if(!a)return;
+a.setAttribute('aria-expanded','false');
+a.addEventListener('click',e=>{e.preventDefault();a.setAttribute('aria-expanded',n.classList.toggle('open'))});})();
+</script>
 </body>
 </html>

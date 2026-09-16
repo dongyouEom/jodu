@@ -166,19 +166,17 @@ VERIFY_META = "".join(
 def group_of(r):
     return r.get("group") or ("서울" if r["city"].startswith("서울") else "경기·인천")
 
-def region_links(prefix, current=None, only=None):
-    """only 를 주면 그 묶음만. 지역 수가 많아 상단 내비는 같은 묶음만 보여준다."""
+def region_links(prefix, current=None, collapse_to=None):
+    """collapse_to 묶음만 펼쳐두고 나머지는 접는다 (선택된 지역을 다시 누르면 JS가 펼침)."""
     groups = {}
     for r in regions:
-        g = group_of(r)
-        if only and g != only:
-            continue
-        groups.setdefault(g, []).append(r)
+        groups.setdefault(group_of(r), []).append(r)
     html = []
     for label, rs in groups.items():
         links = "".join(
             f'<a href="{prefix}{r["slug"]}/"{" class=on" if r is current else ""}>{r["name"]}</a>' for r in rs)
-        html.append(f'<div class="rgroup"><b>{label}</b><div class="regions">{links}</div></div>')
+        off = " off" if collapse_to and label != collapse_to else ""
+        html.append(f'<div class="rgroup{off}"><b>{label}</b><div class="regions">{links}</div></div>')
     return "".join(html)
 
 # 제목·설명에 들어가므로 지역이 많아지면 regions.json 의 "coverage" 로 짧게 고정한다
@@ -228,7 +226,7 @@ for r in regions:
          "REGION": r["name"], "CITY": r["city"], "AREAS_TEXT": areas_text, "INTRO": esc(intro),
          "AREA_CHIPS": "".join(f"<span>{a}</span>" for a in r["areas"]),
          "REGION_LINKS": region_links("../", r),
-         "REGION_LINKS_TOP": region_links("../", r, only=group_of(r)),
+         "REGION_LINKS_TOP": region_links("../", r, collapse_to=group_of(r)),
          "MEDIA": media_html("../"),
          "JSONLD": jsonld(url, [r["city"], *r["areas"]])}
     v["FAQ_JSONLD"] = faq_jsonld(v)
