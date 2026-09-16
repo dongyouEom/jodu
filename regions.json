@@ -2,11 +2,12 @@
   "brand": "VIP홈타이",
   "phone": "0502-1948-0048",
   "telegram": "https://t.me/massageking12",
-  "domain": "https://viphomethai.vip",
+  "domain": "https://viphomathai.vip",
   "hours": "365일 24시간 연중무휴",
   "coverage": "서울·경기·인천 전 지역",
   "verify": {
-    "google": ""
+    "google": "",
+    "naver": ""
   },
   "media": [],
   "regions": [
