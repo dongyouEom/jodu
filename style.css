@@ -39,7 +39,8 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;heigh
 
 .hero{padding:50px 0 34px;text-align:center}
 .hero h1{font-family:var(--disp);font-weight:900;font-size:clamp(30px,8vw,46px);line-height:1.24;letter-spacing:-.01em;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero h1::after{content:"";display:block;width:116px;height:1px;margin:22px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hero .lead{margin-top:12px;font-family:var(--disp);font-weight:700;font-size:clamp(17px,4.4vw,22px);line-height:1.4;color:var(--gold-lt)}
+.hero .lead::after{content:"";display:block;width:116px;height:1px;margin:20px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
 .hero p{margin-top:16px;color:var(--mute);font-size:16px}
 .cta{display:flex;gap:10px;margin-top:26px}
 .btn{flex:1;text-align:center;padding:15px 12px;border-radius:12px;font-weight:800;font-size:16px;letter-spacing:-.01em;border:1px solid transparent}
