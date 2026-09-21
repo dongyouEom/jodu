@@ -162,14 +162,30 @@ VERIFY_META = "".join(
     f'<meta name="{k}-site-verification" content="{esc(v)}">\n'
     for k, v in (cfg.get("verify") or {}).items() if v)
 
-# ---- 지역 링크 (서울 / 그 외로 묶어서) --------------------------------------------------------
+# ---- 상위(구·시) / 하위(동·역) 지역 --------------------------------------------------------
+# "parent": 상위 지역 slug. 하위 지역은 자기 페이지를 갖되 지역 목록에는 넣지 않고,
+# 상위 페이지에서만 링크한다 ("인계동 출장마사지" 같은 좁은 검색어를 잡기 위한 페이지).
+by_slug = {r["slug"]: r for r in regions}
+children = {}
+for r in regions:
+    p = r.get("parent")
+    if not p:
+        continue
+    if p not in by_slug: die(f'{r["name"]}의 "parent" slug "{p}"에 해당하는 지역이 없습니다.')
+    if by_slug[p].get("parent"): die(f'"parent"는 한 단계만 가능합니다: {r["slug"]} -> {p}')
+    children.setdefault(p, []).append(r)
+
 def group_of(r):
+    if r.get("parent"):
+        r = by_slug[r["parent"]]
     return r.get("group") or ("서울" if r["city"].startswith("서울") else "경기·인천")
 
 def region_links(prefix, current=None, collapse_to=None):
     """collapse_to 묶음만 펼쳐두고 나머지는 접는다 (선택된 지역을 다시 누르면 JS가 펼침)."""
     groups = {}
     for r in regions:
+        if r.get("parent"):
+            continue
         groups.setdefault(group_of(r), []).append(r)
     html = []
     for label, rs in groups.items():
@@ -193,6 +209,20 @@ def jsonld(url, area_served, geo=None):
     if og_image:
         d["image"] = f"{domain}/assets/{og_image}"
     return j(d).replace("</", "<\\/")
+
+def sub_links(r, prefix="../"):
+    """상위 지역이면 하위 지역 목록을, 하위 지역이면 상위 지역과 형제 지역을 링크한다."""
+    kids = children.get(r["slug"])
+    if kids:
+        label, items, cur = f'{r["name"]} 주요 지역', kids, None
+    elif r.get("parent"):
+        parent = by_slug[r["parent"]]
+        label, items, cur = f'{parent["name"]} 전체', [parent, *children[parent["slug"]]], r
+    else:
+        return ""
+    links = "".join(f'<a href="{prefix}{x["slug"]}/"{" class=on" if x is cur else ""}>{x["name"]}</a>'
+                    for x in items)
+    return f'    <div class="rgroup"><b>{label}</b><div class="regions">{links}</div></div>\n'
 
 def map_html(r):
     """번화가 좌표 지도. 스크롤해 내려와야 로드되도록 lazy."""
@@ -240,7 +270,8 @@ for r in regions:
     v = {**common, "ROOT": "../", "URL": url,
          "REGION": r["name"], "CITY": r["city"], "AREAS_TEXT": areas_text, "INTRO": esc(intro),
          "REGION_LINKS": region_links("../", r),
-         "REGION_LINKS_TOP": region_links("../", r, collapse_to=group_of(r)),
+         "REGION_LINKS_TOP": region_links("../", by_slug.get(r.get("parent"), r), collapse_to=group_of(r)),
+         "SUB_LINKS": sub_links(r),
          "MEDIA": media_html("../"), "MAP": map_html(r),
          "JSONLD": jsonld(url, [r["city"], *r["areas"]], r.get("geo"))}
     v["FAQ_JSONLD"] = faq_jsonld(v)
