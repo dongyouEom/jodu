@@ -45,7 +45,8 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;heigh
 .btn{flex:1;text-align:center;padding:15px 12px;border-radius:12px;font-weight:800;font-size:16px;letter-spacing:-.01em;border:1px solid transparent}
 .btn.call{background:var(--gold-bar);color:#2a1c05;border-color:#e7cd85;box-shadow:0 6px 22px rgba(217,181,88,.18)}
 .btn.tg{background:rgba(42,171,238,.10);color:#84d2ff;border-color:rgba(42,171,238,.45)}
-.tagline{display:inline-block;margin-top:22px;padding:8px 18px;border:1px solid var(--gold-dk);border-radius:99px;background:rgba(217,181,88,.08);color:var(--gold-lt);font-size:13.5px;font-weight:700;letter-spacing:-.01em}
+.taglines{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:22px}
+.tagline{padding:8px 15px;border:1px solid var(--gold-dk);border-radius:99px;background:rgba(217,181,88,.08);color:var(--gold-lt);font-size:13px;font-weight:700;letter-spacing:-.015em}
 .feats{display:flex;margin-top:18px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);padding:13px 0}
 .feats span{flex:1;text-align:center;font-size:13px;color:var(--gold-lt);letter-spacing:.01em}
 .feats span+span{border-left:1px solid var(--line-soft)}
