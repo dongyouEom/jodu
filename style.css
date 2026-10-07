@@ -83,6 +83,8 @@ h2 .en{display:block;font-family:Pretendard,sans-serif;font-weight:600;font-size
 .ev small{display:block;margin-top:2px;font-size:13px;font-weight:400;color:var(--mute)}
 .amt{flex:none;font-size:15px;font-weight:800;color:#2a1c05;background:var(--gold-bar);border-radius:99px;padding:6px 14px}
 
+.guide .card p{font-size:15px;line-height:1.8;color:var(--mute)}
+.guide .card p+p{margin-top:12px}
 .rules{display:grid;gap:10px}
 .rule{padding:16px 17px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(28,20,13,.92),rgba(18,13,9,.92));box-shadow:0 8px 24px rgba(0,0,0,.4)}
 .rule b{position:relative;display:block;margin-bottom:6px;padding-left:24px;font-size:15px;color:var(--gold-lt)}

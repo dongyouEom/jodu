@@ -224,6 +224,17 @@ def sub_links(r, prefix="../"):
                     for x in items)
     return f'    <div class="rgroup"><b>{label}</b><div class="regions">{links}</div></div>\n'
 
+def guide_html(r):
+    """지역 고유 안내 문단("guide"). 템플릿 문구가 아닌 그 지역만의 내용이라 페이지마다 다른 본문이 된다."""
+    g = r.get("guide")
+    if not g:
+        return ""
+    if not isinstance(g, list) or not all(isinstance(x, str) and x.strip() for x in g):
+        die(f'{r["name"]}의 "guide"는 문단 문자열의 목록이어야 합니다.')
+    paras = "".join(f"<p>{esc(x)}</p>" for x in g)
+    return (f'  <section class="guide">\n    <h2>{esc(r["name"])} 이용 안내<span class="en">LOCAL GUIDE</span></h2>\n'
+            f'    <div class="card">{paras}</div>\n  </section>\n')
+
 def map_html(r):
     """번화가 좌표 지도. 스크롤해 내려와야 로드되도록 lazy."""
     g = r.get("geo")
@@ -335,7 +346,7 @@ for r in regions:
          "REGION_LINKS": region_links("../", r),
          "REGION_LINKS_TOP": region_links("../", by_slug.get(r.get("parent"), r), collapse_to=group_of(r)),
          "SUB_LINKS": sub_links(r),
-         "MEDIA": media_html("../"), "MAP": map_html(r),
+         "MEDIA": media_html("../"), "MAP": map_html(r), "GUIDE": guide_html(r),
          "JSONLD": jsonld(url, [r["city"], *r["areas"]], r.get("geo"))}
     v["FAQ_JSONLD"] = faq_jsonld(v)
     d = dist / r["slug"]; d.mkdir()
