@@ -224,6 +224,17 @@ def sub_links(r, prefix="../"):
                     for x in items)
     return f'    <div class="rgroup"><b>{label}</b><div class="regions">{links}</div></div>\n'
 
+# 검색어용 지역명. 사람들은 "강남구 출장마사지"가 아니라 "강남 출장마사지"로 검색하므로
+# "○○구" 형태(공백 없는 3글자 이상, "소래포구" 같은 지명 제외)는 "구"를 떼서 제목·H1·본문에 쓴다.
+# regions.json 의 "keyword" 가 있으면 그 값을 그대로 쓴다. 상단 지역 목록에는 원래 name 을 쓴다.
+def keyword_of(r):
+    if r.get("keyword"):
+        return r["keyword"]
+    n = r["name"]
+    if re.fullmatch(r"[가-힣]{2,}구", n) and not n.endswith("포구"):
+        return n[:-1]
+    return n
+
 def guide_html(r):
     """지역 고유 안내 문단("guide"). 템플릿 문구가 아닌 그 지역만의 내용이라 페이지마다 다른 본문이 된다."""
     g = r.get("guide")
@@ -232,7 +243,7 @@ def guide_html(r):
     if not isinstance(g, list) or not all(isinstance(x, str) and x.strip() for x in g):
         die(f'{r["name"]}의 "guide"는 문단 문자열의 목록이어야 합니다.')
     paras = "".join(f"<p>{esc(x)}</p>" for x in g)
-    return (f'  <section class="guide">\n    <h2>{esc(r["name"])} 이용 안내<span class="en">LOCAL GUIDE</span></h2>\n'
+    return (f'  <section class="guide">\n    <h2>{esc(keyword_of(r))} 이용 안내<span class="en">LOCAL GUIDE</span></h2>\n'
             f'    <div class="card">{paras}</div>\n  </section>\n')
 
 def map_html(r):
@@ -336,9 +347,9 @@ for r in regions:
     # intro 에 결제 문장까지 직접 써 둔 경우엔 두 번 붙이지 않는다
     if not re.search(r"결제[^.]*\.?\s*$", intro):
         intro += " " + pick(r["slug"], "payment_note", PAYMENT_NOTE)
-    fmt = {"region": r["name"], "city": r["city"]}
+    fmt = {"region": keyword_of(r), "city": r["city"]}
     v = {**common, "ROOT": "../", "URL": url,
-         "REGION": r["name"], "CITY": r["city"], "AREAS_TEXT": areas_text, "INTRO": esc(intro),
+         "REGION": keyword_of(r), "CITY": r["city"], "AREAS_TEXT": areas_text, "INTRO": esc(intro),
          "CARD1_P1": pick(r["slug"], "card1_p1", CARD1_P1).format(**fmt),
          "CARD1_P2": pick(r["slug"], "card1_p2", CARD1_P2).format(**fmt),
          "CARD2_P1": pick(r["slug"], "card2_p1", CARD2_P1).format(**fmt),
@@ -360,6 +371,7 @@ def section_of(sid):
 v = {**common, "ROOT": "", "URL": f"{domain}/", "COVERAGE": COVERAGE,
      "REGION_LINKS": region_links(""), "MEDIA": media_html(""),
      "COURSES": section_of("courses"), "EVENTS": section_of("events"), "NOTICE": section_of("notice"),
+     "CHECKLIST": section_of("checklist"), "SCAM": section_of("scam").replace("{{PHONE}}", cfg["phone"]),
      "SLUGS_JSON": j([r["slug"] for r in regions]),
      "JSONLD": jsonld(f"{domain}/", [r["city"] for r in regions])}
 (dist / "index.html").write_text(render(tpl_index, v), encoding="utf-8")

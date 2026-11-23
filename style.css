@@ -85,6 +85,17 @@ h2 .en{display:block;font-family:Pretendard,sans-serif;font-weight:600;font-size
 
 .guide .card p{font-size:15px;line-height:1.8;color:var(--mute)}
 .guide .card p+p{margin-top:12px}
+.card p.big{font-size:18px;font-weight:700;color:var(--gold-lt);text-align:center;margin-bottom:12px}
+.card p.big b{color:var(--gold-lt)}
+.card p:not(.big)+p{margin-top:10px}
+.checks{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.checks li{font-size:14.5px;line-height:1.7;color:var(--mute);padding-left:22px;position:relative}
+.checks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--gold-lt);font-weight:800}
+.checks li b{display:block;color:var(--gold-lt);font-size:15px}
+.card.warn{border-color:#7a3a1f}
+.card.warn p{font-size:14.5px;line-height:1.8;color:var(--mute)}
+.card.warn p+p{margin-top:10px}
+.card.warn b{color:var(--gold-lt)}
 .rules{display:grid;gap:10px}
 .rule{padding:16px 17px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(28,20,13,.92),rgba(18,13,9,.92));box-shadow:0 8px 24px rgba(0,0,0,.4)}
 .rule b{position:relative;display:block;margin-bottom:6px;padding-left:24px;font-size:15px;color:var(--gold-lt)}
