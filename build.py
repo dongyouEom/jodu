@@ -366,12 +366,13 @@ for r in regions:
 # ---- 루트 허브: 지역과 무관한 섹션은 지역 템플릿에서 그대로 가져와 한 곳에서만 관리 ----
 def section_of(sid):
     m = re.search(rf'<section id="{sid}">.*?</section>', tpl_region, re.S)
-    return m.group(0) if m else ""
+    # 허브에서는 ROOT·PHONE 치환이 섹션 삽입보다 먼저 끝나므로 여기서 미리 바꿔 둔다
+    return m.group(0).replace("{{ROOT}}", "").replace("{{PHONE}}", cfg["phone"]) if m else ""
 
 v = {**common, "ROOT": "", "URL": f"{domain}/", "COVERAGE": COVERAGE,
      "REGION_LINKS": region_links(""), "MEDIA": media_html(""),
      "COURSES": section_of("courses"), "EVENTS": section_of("events"), "NOTICE": section_of("notice"),
-     "CHECKLIST": section_of("checklist"), "SCAM": section_of("scam").replace("{{PHONE}}", cfg["phone"]),
+     "CHECKLIST": section_of("checklist"), "PAYMENT": section_of("payment"), "SCAM": section_of("scam"),
      "SLUGS_JSON": j([r["slug"] for r in regions]),
      "JSONLD": jsonld(f"{domain}/", [r["city"] for r in regions])}
 (dist / "index.html").write_text(render(tpl_index, v), encoding="utf-8")
@@ -382,10 +383,13 @@ shutil.copy2(root / "style.css", dist / "style.css")
 for f in (root / "icons").iterdir():
     if f.is_file():
         shutil.copy2(f, dist / f.name)
+# 본문 일러스트(도착 시간·결제 방법 섹션): illust/ -> dist/illust/
+if (root / "illust").is_dir():
+    shutil.copytree(root / "illust", dist / "illust")
 # lastmod: 페이지 내용에 영향을 주는 소스의 마지막 커밋 날짜 (검색엔진 재수집 신호). git이 없으면 생략
 try:
     lastmod = subprocess.run(["git", "log", "-1", "--format=%cs", "--", "template.html", "template-index.html",
-                              "regions.json", "style.css", "assets", "icons"],
+                              "regions.json", "style.css", "assets", "icons", "illust"],
                              cwd=root, capture_output=True, text=True, check=True).stdout.strip()
 except (OSError, subprocess.CalledProcessError):
     lastmod = ""

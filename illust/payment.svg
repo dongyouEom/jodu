@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300" role="img" aria-label="현금·계좌이체·카드 결제">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbf0cb"/><stop offset=".38" stop-color="#e6c574"/>
+      <stop offset=".7" stop-color="#bb9136"/><stop offset="1" stop-color="#e9d290"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#d9b558" stop-opacity=".16"/><stop offset="1" stop-color="#d9b558" stop-opacity="0"/>
+    </radialGradient>
+    <g id="bill">
+      <rect width="150" height="78" rx="6" fill="#1a140d" stroke="#d9b558" stroke-width="3"/>
+      <rect x="9" y="9" width="132" height="60" rx="4" fill="none" stroke="#9c7529" stroke-width="1.5"/>
+      <circle cx="75" cy="39" r="20" fill="none" stroke="#e6c574" stroke-width="2.5"/>
+      <text x="75" y="47" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#e6c574">₩</text>
+      <circle cx="24" cy="39" r="5" fill="#9c7529"/><circle cx="126" cy="39" r="5" fill="#9c7529"/>
+    </g>
+  </defs>
+  <ellipse cx="320" cy="160" rx="310" ry="140" fill="url(#glow)"/>
+  <line x1="30" y1="282" x2="610" y2="282" stroke="#3b2c19" stroke-width="3" stroke-linecap="round"/>
+  <!-- cash -->
+  <use href="#bill" transform="translate(28 168) rotate(-16)"/>
+  <use href="#bill" transform="translate(40 150) rotate(-7)"/>
+  <use href="#bill" transform="translate(54 136) rotate(2)"/>
+  <!-- card terminal -->
+  <rect x="250" y="96" width="112" height="176" rx="16" fill="#1d150e" stroke="url(#g)" stroke-width="3"/>
+  <rect x="266" y="112" width="80" height="48" rx="6" fill="#0a0706" stroke="#9c7529" stroke-width="1.5"/>
+  <circle cx="306" cy="136" r="13" fill="url(#g)"/>
+  <path d="M299,136 l5,5 l9,-10" fill="none" stroke="#0a0706" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#3b2c19" stroke="#9c7529" stroke-width="1">
+    <circle cx="280" cy="184" r="7"/><circle cx="306" cy="184" r="7"/><circle cx="332" cy="184" r="7"/>
+    <circle cx="280" cy="208" r="7"/><circle cx="306" cy="208" r="7"/><circle cx="332" cy="208" r="7"/>
+    <circle cx="280" cy="232" r="7"/><circle cx="306" cy="232" r="7"/><circle cx="332" cy="232" r="7"/>
+  </g>
+  <rect x="272" y="252" width="68" height="6" rx="3" fill="#0a0706"/>
+  <!-- card -->
+  <g transform="translate(24 -16) rotate(-18 370 84)">
+    <rect x="300" y="38" width="140" height="88" rx="10" fill="url(#g)"/>
+    <rect x="300" y="56" width="140" height="16" fill="#2a1e12"/>
+    <rect x="316" y="86" width="24" height="18" rx="3" fill="#9c7529" stroke="#f7e6b0" stroke-width="1"/>
+    <g fill="none" stroke="#2a1e12" stroke-width="2.5" stroke-linecap="round">
+      <path d="M410,88 a10,10 0 0 1 0,14"/><path d="M417,83 a17,17 0 0 1 0,24"/>
+    </g>
+  </g>
+  <!-- phone transfer -->
+  <rect x="470" y="70" width="108" height="200" rx="18" fill="#1d150e" stroke="url(#g)" stroke-width="3"/>
+  <rect x="480" y="90" width="88" height="160" rx="8" fill="#0a0706"/>
+  <rect x="510" y="78" width="28" height="5" rx="2.5" fill="#3b2c19"/>
+  <circle cx="524" cy="146" r="30" fill="url(#g)"/>
+  <text x="524" y="157" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="800" fill="#0a0706">₩</text>
+  <circle cx="549" cy="122" r="11" fill="#f7e6b0" stroke="#0a0706" stroke-width="3"/>
+  <path d="M544,122 l3.5,3.5 l6,-7" fill="none" stroke="#0a0706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="496" y="194" width="56" height="7" rx="3.5" fill="#f7e6b0" opacity=".85"/>
+  <rect x="505" y="210" width="38" height="5" rx="2.5" fill="#a2917a" opacity=".6"/>
+  <rect x="508" y="256" width="32" height="4" rx="2" fill="#3b2c19"/>
+</svg>
