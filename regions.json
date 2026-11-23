@@ -8,7 +8,9 @@
   "verify": {
     "google": ""
   },
-  "media": [],
+  "media": [
+    { "file": "model1.jpg", "caption": "1:1 맞춤 아로마 오일 관리" }
+  ],
   "regions": [
     {
       "slug": "gwanak",
