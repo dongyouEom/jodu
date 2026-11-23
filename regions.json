@@ -9,7 +9,7 @@
     "google": ""
   },
   "media": [
-    { "file": "model1.jpg", "caption": "1:1 맞춤 아로마 오일 관리" }
+    { "file": "model1.jpg", "alt": "1:1 맞춤 아로마 오일 관리" }
   ],
   "regions": [
     {

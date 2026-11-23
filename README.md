@@ -6,7 +6,7 @@
 
 1. 지역·문구·텔레그램 링크 수정 → GitHub에서 `regions.json` 열고 연필(Edit) → 수정 → **Commit changes**
 2. 이미지·GIF 추가 → `assets` 폴더에서 **Add file → Upload files** → 올리고 Commit
-   → 그 다음 `regions.json`의 `media`에 `{ "file": "올린파일명", "caption": "설명" }` 한 줄 추가
+   → 그 다음 `regions.json`의 `media`에 `{ "file": "올린파일명", "caption": "설명" }` 한 줄 추가 (사진 아래 문구 없이 검색용 설명만 넣으려면 `"caption"` 대신 `"alt"`)
 3. 1~2분 후 사이트 자동 갱신 (Actions 탭에서 진행 상황 확인). 빌드·푸시 불필요.
 
 ## 개발자용: 로컬 빌드

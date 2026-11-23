@@ -65,7 +65,7 @@ def media_items():
         f = assets / it["file"]
         if not f.is_file():
             print(f"skip (없음): assets/{it['file']}"); continue
-        out.append((f, it.get("caption", "")))
+        out.append((f, it.get("caption", ""), it.get("alt") or it.get("caption", "")))
     return out
 
 MEDIA = media_items()
@@ -99,9 +99,9 @@ def prepare_media():
     반환: [{kind, src, fallback, poster, w, h, cap}]"""
     out_dir = dist / "assets"
     items = []
-    for f, cap in MEDIA:
+    for f, cap, alt in MEDIA:
         ext = f.suffix.lower(); stem = f.stem
-        it = {"kind": "img", "src": f.name, "fallback": None, "poster": None, "cap": cap}
+        it = {"kind": "img", "src": f.name, "fallback": None, "poster": None, "cap": cap, "alt": alt}
         dims = probe(f)
         if ext == ".gif" and FFMPEG:
             mp4, jpg = out_dir / f"{stem}.mp4", out_dir / f"{stem}.jpg"
@@ -131,16 +131,16 @@ def media_html(prefix):
     for it in ITEMS:
         a = f"{prefix}assets/"
         wh = f' width="{it["w"]}" height="{it["h"]}"' if it.get("w") else ""
-        cap = esc(it["cap"])
+        cap, alt = esc(it["cap"]), esc(it["alt"])
         if it["kind"] == "video":
             poster = f' poster="{a}{it["poster"]}"' if it.get("poster") else ""
-            tag = (f'<video src="{a}{it["src"]}"{poster}{wh} autoplay muted loop playsinline preload="metadata" aria-label="{cap}">'
-                   + (f'<img src="{a}{it["fallback"]}" alt="{cap}" loading="lazy">' if it.get("fallback") else "") + "</video>")
+            tag = (f'<video src="{a}{it["src"]}"{poster}{wh} autoplay muted loop playsinline preload="metadata" aria-label="{alt}">'
+                   + (f'<img src="{a}{it["fallback"]}" alt="{alt}" loading="lazy">' if it.get("fallback") else "") + "</video>")
         elif it["kind"] == "picture":
             tag = (f'<picture><source srcset="{a}{it["src"]}" type="image/webp">'
-                   f'<img src="{a}{it["fallback"]}" alt="{cap}"{wh} loading="lazy"></picture>')
+                   f'<img src="{a}{it["fallback"]}" alt="{alt}"{wh} loading="lazy"></picture>')
         else:
-            tag = f'<img src="{a}{it["src"]}" alt="{cap}"{wh} loading="lazy">'
+            tag = f'<img src="{a}{it["src"]}" alt="{alt}"{wh} loading="lazy">'
         figs.append(f"<figure>{tag}{f'<figcaption>{cap}</figcaption>' if cap else ''}</figure>")
     if not figs:
         return ""
